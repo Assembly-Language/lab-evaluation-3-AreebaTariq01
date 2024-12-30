@@ -1,27 +1,33 @@
+include Irvine32.inc
 
-
-INCLUDE Irvine32.inc
 .data
-;public asmfunc
-msg db "assebly procedure end now",0
-
+zeroCount DWORD 0  
 
 .code
-asmfunc PROC p1:DWORD, p2:DWORD
+countZeros PROC
     
-    push ebp
-    mov ebp,esp
-    mov eax, [ebp+12
-\] ; Move the first parameter into EAX
-    call writedec
-    call crlf
-    ;add eax, p2 ; Add the second parameter to EAX
-    call writedec
-    call crlf
-    mov edx, offset msg
-    call writestring
-    call crlf
-    
-    ret
+    ; EAX -> Pointer to the array
+    ; EDX -> Size of the array (number of elements)
+
+    push ebp             ; Set up the stack frame
+    mov ebp, esp
+
+    mov esi, [ebp + 8]   ; ESI = array pointer
+    mov ecx, [ebp + 12]  ; ECX = size of the array
+    xor eax, eax         ; EAX = zero count (initialize to 0)
+
+count_loop:
+    cmp ecx, 0           ; Check if all elements are processed
+    je end_loop          ; Exit loop if ECX is 0
+
+    mov edx, [esi]       ; Load current array element into EDX
+    cmp edx, 0           ; Check if the value is zero
+    jne not_zero         ; Skip increment if not zero
+
+    inc eax              ; Increment zero count if value is zero
+
+not_zero:
+    add esi, 4           ; Move to the next element (4 bytes per element)
+    loop
 asmfunc ENDP
-end
+end 

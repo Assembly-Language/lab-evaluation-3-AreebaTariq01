@@ -2,34 +2,19 @@
 #include <stdio.h>
 
 
-//extern "C" void __stdcall asmfunc(void);
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void __stdcall asmfunc(int p1 ,int p2);
-
-#ifdef __cplusplus
-}
-#endif
-
+extern int count_zeros(int *arr, int size);
 
 int main() {
-    system("cls");
-    int abc;
-    printf("assembly proc calling from  from C! \n");
-getch();
 
-    
-    asmfunc(3,5); //assembly proc calling
-   
-   getch();
-    
-    
-    printf("back to  C! \n"); // printing in c
-    
-  
-    
+    // declare an array
+    int arr[] = {0, 3, 0, 5, 7, 0, 8};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    // Calling the Assembly function
+    int zero_count = count_zeros(arr, size);
+
+    // Display the result
+    printf("Total number of zeros in the array: %d\n", zero_count);
+
     return 0;
 }
